@@ -1,2 +1,2 @@
 ## Diploma movie api
-** write prj description
+api link: api.driadix.movies.nomoredomains.rocks
