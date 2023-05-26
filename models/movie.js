@@ -43,18 +43,18 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     type: Number,
-    required: [true, 'Необходимо передать поле owner в запрос'],
+    required: [true, 'Необходимо передать поле movieId в запрос'],
   },
   nameRU: {
     type: String,
-    required: [true, 'Необходимо передать поле year в запрос'],
+    required: [true, 'Необходимо передать поле nameRU в запрос'],
   },
   nameEN: {
     type: String,
-    required: [true, 'Необходимо передать поле year в запрос'],
+    required: [true, 'Необходимо передать поле nameEN в запрос'],
   },
 },
-{ timestamps: true, versionKey: false },
+{ versionKey: false },
 );
 
 module.exports = mongoose.model('movie', movieSchema);

@@ -23,7 +23,9 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Необходимо передать поле password в запрос'],
     select: false,
   },
-});
+},
+{ versionKey: false },
+);
 
 userSchema.post('save', (error, res, next) => {
   if (error.code === 11000) {
