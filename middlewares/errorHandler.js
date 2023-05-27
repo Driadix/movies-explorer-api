@@ -1,10 +1,11 @@
-// eslint-disable-next-line no-unused-vars
+const { errorsMessages } = require('../utils/constants');
+
 const errorHandler = (error, req, res, next) => {
-  console.log(error)
   const { statusCode = 500, message } = error;
-  return res.status(error.statusCode).send({
-    message: statusCode === 500 ? 'Произошло серверная ошибка' : message,
+  res.status(error.statusCode).send({
+    message: statusCode === 500 ? errorsMessages.DefaultError : message,
   });
+  next();
 };
 
 module.exports = errorHandler;

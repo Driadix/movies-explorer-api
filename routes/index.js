@@ -16,6 +16,6 @@ routes.post('/signup', registerValidation, register);
 routes.use('/users', authHandler, require('./users'));
 routes.use('/movies', authHandler, require('./movies'));
 
-routes.use(notFoundHandler);
+routes.use(authHandler, notFoundHandler);
 
 module.exports = routes;

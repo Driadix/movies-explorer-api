@@ -1,16 +1,16 @@
 const Movie = require('../models/movie');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { NotEnoughPermissionError } = require('../errors/NotEnoughPermissionError');
+const { errorsMessages } = require('../utils/constants');
 const { tryCatch } = require('../utils/tryCatch');
 
 module.exports.getMyMovies = tryCatch(async (req, res) => {
-  const movies = await Movie.find({}).populate('owner');
+  const movies = await Movie.find({ owner: req.user._id });
 
   res.status(200).send(movies);
 });
 
 module.exports.addMyMovie = tryCatch(async (req, res) => {
-  console.log(req.user._id)
   const {
     country,
     director,
@@ -23,7 +23,7 @@ module.exports.addMyMovie = tryCatch(async (req, res) => {
     movieId,
     nameRU,
     nameEN,
-   } = req.body;
+  } = req.body;
   let movie = await Movie.create({
     country,
     director,
@@ -47,8 +47,8 @@ module.exports.deleteMyMovie = tryCatch(async (req, res) => {
   const { myMovieId } = req.params;
 
   const movie = await Movie.findById(myMovieId);
-  if (!movie) throw new NotFoundError('Фильм с указанным _id не найдена');
-  if (movie.owner.toString() !== req.user._id.toString()) throw new NotEnoughPermissionError('Вы не можете удалять чужие фильмы');
+  if (!movie) throw new NotFoundError(errorsMessages.NoMovie);
+  if (movie.owner.toString() !== req.user._id.toString()) throw new NotEnoughPermissionError();
 
   await movie.deleteOne();
   res.status(200).send(movie);
