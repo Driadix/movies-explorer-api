@@ -48,8 +48,9 @@ module.exports.deleteMyMovie = tryCatch(async (req, res) => {
 
   const movie = await Movie.findById(myMovieId);
   if (!movie) throw new NotFoundError(errorsMessages.NoMovie);
-  if (movie.owner.toString() !== req.user._id.toString()) throw new NotEnoughPermissionError(errorsMessages.NoPermission);
-
+  if (movie.owner.toString() !== req.user._id.toString()) {
+    throw new NotEnoughPermissionError(errorsMessages.NoPermission);
+  }
   await movie.deleteOne();
   res.status(200).send(movie);
 });
